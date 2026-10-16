@@ -15,10 +15,17 @@ st.write(
     "Predict student marks using a trained Decision Tree model."
 )
 
+# Path to the saved model
 MODEL_PATH = Path(__file__).parent / "decision_tree_model.pkl"
 
 @st.cache_resource
 def load_model():
+    if not MODEL_PATH.exists():
+        raise FileNotFoundError(
+            f"Model file not found: {MODEL_PATH.name}. "
+            "Upload decision_tree_model.pkl to your GitHub repository."
+        )
+
     return joblib.load(MODEL_PATH)
 
 try:
@@ -42,4 +49,4 @@ try:
         st.success(f"Predicted Marks: {prediction:.2f}")
 
 except Exception as e:
-    st.error(f"Could not load the model: {e}")
+    st.error(f"Could not load or run the model: {e}")
